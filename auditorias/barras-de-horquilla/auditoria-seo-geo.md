@@ -132,7 +132,7 @@ El HTML final está en [`contenido-optimizado.html`](./contenido-optimizado.html
 - **5.3** Descripción inferior (debajo del listado), ~1.100 palabras
 - **5.4** JSON-LD FAQPage válido
 
-Densidad: "barras de horquilla"/"barra de horquilla" ≈ 1,2 %; sinónimos "tubo de horquilla", "barra de suspensión delantera".
+Extensión: ~1.100 palabras. "barras de horquilla"/"barra de horquilla": 18 menciones (≈1,6 %); sinónimos "tubo de horquilla", "barra de suspensión delantera".
 
 ---
 
