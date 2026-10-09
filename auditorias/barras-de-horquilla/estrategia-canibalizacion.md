@@ -88,3 +88,20 @@ Reglas:
 **Criterio de éxito:** a las 8 semanas, "barra(s) de horquilla" solo tiene impresiones en la categoría, y el blog aparece por consultas de reparar, pulir, óxido o rayada.
 
 **Plan B:** si a las 12 semanas el blog sigue recibiendo impresiones por "barra(s) de horquilla" en el top 20, revisar los anclas externas que apuntan al artículo. Si persiste, plantear de nuevo el 301.
+
+## 7. Plan de enlazado interno hacia la categoría (datos GSC jul–sep 2026)
+
+| Prioridad | Página origen | Impr. 3 meses | Ancla sugerida | Ubicación |
+|---|---|---|---|---|
+| 1 | /retenes-horquilla-moto-29228/ | — | barras de horquilla | Descripción de la categoría |
+| 1 | Fichas de kits de retenes de horquilla (SKF, Tecnium, All Balls) | Canibalizan entre sí | barras de horquilla para moto | Bloque de texto común de la plantilla o productos relacionados |
+| 1 | /blog/133_como-cambiar-retenes-horquilla-de-una-moto.html | 190 (pos. 15) | barras de horquilla | Paso de revisar la barra antes de montar el retén |
+| 1 | /blog/126 (ya hecho) | — | barras de horquilla / barras de horquilla para moto | Intro y CTA |
+| 2 | /horquillas-scooter-18535/ | — | tubos de horquilla | Descripción |
+| 2 | /chasis-moto-29320/ | — | barras de horquilla | Descripción (además del menú) |
+| 2 | Fichas de aceite de horquilla (Liqui Moly 5W) | Canibalizan entre sí | barras de horquilla | Descripción del producto |
+| 2 | Fichas de kits de rodamientos de columna de dirección | — | barras de horquilla | Descripción o productos relacionados |
+| 3 | /yss-amortiguadores-de-moto-18663/ | 193 (pos. 25) | barras de la horquilla delantera | Descripción |
+| 3 | Home (31.231 impr.) | — | Barras de horquilla | Bloque de categorías destacadas en primavera (pico de búsquedas) |
+
+Reglas: un enlace contextual por página, sin target="_blank", con title coherente. Anclas: ~40 % exacta, ~40 % parcial ("barras de horquilla para moto", "tubos de horquilla", "barras para tu horquilla") y ~20 % genérica. No forzar enlaces desde posts sin relación (CDI, regulador, documentación).
