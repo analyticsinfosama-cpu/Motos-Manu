@@ -1,0 +1,157 @@
+<title>Tareas Home Motos Manu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: hoja de taller — cabecera compacta, contadores, filtros y lista priorizada en una columna */
+:root{
+  --bg:#f6f5f3; --surface:#ffffff; --fg:#1f1d1b; --muted:#6b6560; --line:#e4e0db;
+  --accent:#d6361a; --accent-soft:#fbe7e2;
+  --crit:#b42318; --crit-bg:#fde8e6; --high:#b54708; --high-bg:#fef0dc;
+  --mid:#1d5fa8; --mid-bg:#e5effa; --low:#5b6470; --low-bg:#eceef1;
+  --done:#1f7a4d; --done-bg:#e3f4ea; --prog:#9a6700; --prog-bg:#fff4d6;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Source Sans 3",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161514; --surface:#1f1d1c; --fg:#ece8e4; --muted:#a39d97; --line:#34312e;
+  --accent:#ff5a3c; --accent-soft:#3a1f19;
+  --crit:#ff8a7f; --crit-bg:#3d1c19; --high:#f5b36a; --high-bg:#3a2a16; --mid:#8ab8ee; --mid-bg:#1b2a3d; --low:#b3bac4; --low-bg:#2a2d31;
+  --done:#6fd39f; --done-bg:#173226; --prog:#f2c94c; --prog-bg:#352c12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161514; --surface:#1f1d1c; --fg:#ece8e4; --muted:#a39d97; --line:#34312e;
+  --accent:#ff5a3c; --accent-soft:#3a1f19;
+  --crit:#ff8a7f; --crit-bg:#3d1c19; --high:#f5b36a; --high-bg:#3a2a16; --mid:#8ab8ee; --mid-bg:#1b2a3d; --low:#b3bac4; --low-bg:#2a2d31;
+  --done:#6fd39f; --done-bg:#173226; --prog:#f2c94c; --prog-bg:#352c12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body)}
+.wrap{max-width:920px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(28px,5vw,38px)/1.05 var(--f-display);margin:0;text-wrap:balance;letter-spacing:.01em}
+.sub{color:var(--muted);margin:0;max-width:65ch}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.stat b{font:700 26px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sep{width:1px;height:20px;background:var(--line)}
+ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+li.task{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:34px minmax(0,1fr);gap:4px 12px}
+li.task.done{opacity:.62}
+li.task.done h3{text-decoration:line-through;text-decoration-thickness:1px}
+.num{font:700 22px/1.1 var(--f-display);color:var(--muted);font-variant-numeric:tabular-nums}
+.body{min-width:0;display:flex;flex-direction:column;gap:6px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:4px;background:var(--pb);color:var(--pc)}
+.who{font:600 12px var(--f-body);color:var(--muted)}
+.code{font:500 11px var(--f-mono);color:var(--muted)}
+h3{margin:0;font:600 16px/1.3 var(--f-body)}
+.detail{margin:0;color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:4px;flex-wrap:wrap}
+.seg button{font:600 12px var(--f-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"][data-s="pendiente"]{background:var(--low-bg);color:var(--fg)}
+.seg button[aria-pressed="true"][data-s="en_progreso"]{background:var(--prog-bg);color:var(--prog)}
+.seg button[aria-pressed="true"][data-s="finalizada"]{background:var(--done-bg);color:var(--done)}
+.seg button:disabled{cursor:default}
+.note{font-size:13px;color:var(--muted);margin:0}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:24px;text-align:center;color:var(--muted)}
+.p-critica{--pc:var(--crit);--pb:var(--crit-bg)} .p-alta{--pc:var(--high);--pb:var(--high-bg)}
+.p-media{--pc:var(--mid);--pb:var(--mid-bg)} .p-baja{--pc:var(--low);--pb:var(--low-bg)}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}li.task{grid-template-columns:minmax(0,1fr)}.num{font-size:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">motosmanu.com · migración PrestaShop 9</div>
+    <h1>Tareas pendientes de la home</h1>
+    <p class="sub">Ordenadas por prioridad. Cambia el estado de cada tarea; los cambios los ve todo el equipo.</p>
+  </header>
+
+  <section class="stats" aria-label="Resumen">
+    <div class="stat"><b id="s-total">–</b><span>Tareas</span></div>
+    <div class="stat"><b id="s-pend">–</b><span>Pendientes</span></div>
+    <div class="stat"><b id="s-prog">–</b><span>En progreso</span></div>
+    <div class="stat"><b id="s-done">–</b><span>Finalizadas</span></div>
+  </section>
+  <div class="bar" aria-hidden="true"><i id="b-done" style="background:var(--done);width:0"></i><i id="b-prog" style="background:var(--prog);width:0"></i></div>
+
+  <div class="filters" role="group" aria-label="Filtros">
+    <button class="chip" id="f-all" data-who="all" aria-pressed="true">Todas</button>
+    <button class="chip" id="f-dev" data-who="dev" aria-pressed="false">Desarrollador</button>
+    <button class="chip" id="f-seo" data-who="seo" aria-pressed="false">SEO</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button class="chip" id="f-open" data-open="1" aria-pressed="false">Ocultar finalizadas</button>
+  </div>
+
+  <ol id="list"><li class="empty">Cargando tareas…</li></ol>
+  <p class="note" id="msg"></p>
+</div>
+
+<script>
+const LABEL={critica:"Crítica",alta:"Alta",media:"Media",baja:"Baja"};
+const WHO={dev:"Desarrollador",seo:"SEO"};
+const STATES=[["pendiente","Pendiente"],["en_progreso","En progreso"],["finalizada","Finalizada"]];
+let tasks=[],who="all",hideDone=false,canWrite=true,db=null;
+const $=id=>document.getElementById(id);
+
+function render(){
+  const list=$("list");
+  const total=tasks.length,done=tasks.filter(t=>t.status==="finalizada").length,prog=tasks.filter(t=>t.status==="en_progreso").length;
+  $("s-total").textContent=total;$("s-pend").textContent=total-done-prog;$("s-prog").textContent=prog;$("s-done").textContent=done;
+  $("b-done").style.width=total?(done/total*100)+"%":"0";$("b-prog").style.width=total?(prog/total*100)+"%":"0";
+  const shown=tasks.filter(t=>(who==="all"||t.owner===who)&&!(hideDone&&t.status==="finalizada"));
+  list.replaceChildren();
+  if(!tasks.length){const li=document.createElement("li");li.className="empty";li.textContent=db?"Todavía no hay tareas guardadas.":"Cargando tareas…";list.append(li);return}
+  if(!shown.length){const li=document.createElement("li");li.className="empty";li.textContent="No hay tareas con este filtro.";list.append(li);return}
+  shown.forEach((t,i)=>{
+    const li=document.createElement("li");li.className="task p-"+t.priority+(t.status==="finalizada"?" done":"");
+    const n=document.createElement("div");n.className="num";n.textContent=t.order;
+    const b=document.createElement("div");b.className="body";
+    const m=document.createElement("div");m.className="meta";
+    const p=document.createElement("span");p.className="pill";p.textContent=LABEL[t.priority]||t.priority;
+    const w=document.createElement("span");w.className="who";w.textContent=WHO[t.owner]||t.owner;
+    const c=document.createElement("span");c.className="code";c.textContent=t.code||"";
+    m.append(p,w,c);
+    const h=document.createElement("h3");h.textContent=t.title;
+    const d=document.createElement("p");d.className="detail";d.textContent=t.detail||"";
+    const s=document.createElement("div");s.className="seg";s.setAttribute("role","group");s.setAttribute("aria-label","Estado de: "+t.title);
+    STATES.forEach(([k,l])=>{const bt=document.createElement("button");bt.type="button";bt.dataset.s=k;bt.textContent=l;bt.setAttribute("aria-pressed",String(t.status===k));bt.disabled=!canWrite;bt.addEventListener("click",()=>setStatus(t,k));s.append(bt)});
+    b.append(m,h,d,s);li.append(n,b);list.append(li);
+  });
+}
+
+async function setStatus(t,k){
+  if(!db||t.status===k)return;
+  const prev=t.status;t.status=k;render();
+  try{await db.collection("tasks").doc(t.id).update({status:k,updatedAt:new Date().toISOString()})}
+  catch(e){t.status=prev;render();
+    if(e&&e.code==="invalid_argument"){canWrite=false;$("msg").textContent="Solo puedes ver las tareas: pide permiso de edición para cambiar estados.";render()}
+    else $("msg").textContent="No se ha podido guardar el cambio. Inténtalo de nuevo.";}
+}
+
+document.querySelectorAll("[data-who]").forEach(b=>b.addEventListener("click",()=>{who=b.dataset.who;document.querySelectorAll("[data-who]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()}));
+$("f-open").addEventListener("click",e=>{hideDone=!hideDone;e.currentTarget.setAttribute("aria-pressed",String(hideDone));render()});
+
+(async()=>{
+  const c=window.claude;
+  if(!c||!c.use){$("list").firstElementChild.textContent="Abre esta página en Claude para ver y actualizar las tareas.";return}
+  const [d,u]=await Promise.all([c.use("db"),c.use("user")]);
+  if(!d){$("list").firstElementChild.textContent="Inicia sesión para ver las tareas.";return}
+  db=d;
+  if(u){try{const w=await u.can("data.write");if(w===false)canWrite=false}catch(e){}}
+  const timer=setTimeout(()=>{$("msg").textContent="Las tareas tardan en cargar; puede que no estén actualizadas."},10000);
+  db.collection("tasks").orderBy("order").onSnapshot(snap=>{
+    if(!snap.metadata.fromCache){clearTimeout(timer);$("msg").textContent=canWrite?"":"Solo lectura: no tienes permiso para cambiar estados."}
+    tasks=snap.docs.map(x=>Object.assign({id:x.id},x.data()));render();
+  },()=>{clearTimeout(timer);$("msg").textContent="No se han podido cargar las tareas."});
+})();
+</script>
