@@ -62,6 +62,14 @@ h3{margin:0;font:600 16px/1.3 var(--f-body)}
 .seg button[aria-pressed="true"][data-s="finalizada"]{background:var(--done-bg);color:var(--done)}
 .seg button:disabled{cursor:default}
 .note{font-size:13px;color:var(--muted);margin:0}
+details.steps{border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+details.steps summary{cursor:pointer;font:600 13px var(--f-body);padding:7px 10px;color:var(--accent);list-style:none;display:flex;align-items:center;gap:6px}
+details.steps summary::-webkit-details-marker{display:none}
+details.steps summary::before{content:"▸";font-size:11px;transition:transform .15s}
+details.steps[open] summary::before{transform:rotate(90deg)}
+details.steps summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.steps ol{list-style:decimal;padding:0 14px 10px 32px;gap:6px;font-size:14px}
+details.steps li{padding-left:2px;overflow-wrap:anywhere}
 .empty{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:24px;text-align:center;color:var(--muted)}
 .p-critica{--pc:var(--crit);--pb:var(--crit-bg)} .p-alta{--pc:var(--high);--pb:var(--high-bg)}
 .p-media{--pc:var(--mid);--pb:var(--mid-bg)} .p-baja{--pc:var(--low);--pb:var(--low-bg)}
@@ -100,7 +108,7 @@ h3{margin:0;font:600 16px/1.3 var(--f-body)}
 const LABEL={critica:"Crítica",alta:"Alta",media:"Media",baja:"Baja"};
 const WHO={dev:"Desarrollador",seo:"SEO"};
 const STATES=[["pendiente","Pendiente"],["en_progreso","En progreso"],["finalizada","Finalizada"]];
-let tasks=[],who="all",hideDone=false,canWrite=true,db=null;
+let tasks=[],who="all",hideDone=false,canWrite=true,db=null;const openSteps=new Set();
 const $=id=>document.getElementById(id);
 
 function render(){
@@ -125,7 +133,9 @@ function render(){
     const d=document.createElement("p");d.className="detail";d.textContent=t.detail||"";
     const s=document.createElement("div");s.className="seg";s.setAttribute("role","group");s.setAttribute("aria-label","Estado de: "+t.title);
     STATES.forEach(([k,l])=>{const bt=document.createElement("button");bt.type="button";bt.dataset.s=k;bt.textContent=l;bt.setAttribute("aria-pressed",String(t.status===k));bt.disabled=!canWrite;bt.addEventListener("click",()=>setStatus(t,k));s.append(bt)});
-    b.append(m,h,d,s);li.append(n,b);list.append(li);
+    b.append(m,h,d);
+    if(Array.isArray(t.steps)&&t.steps.length){const ds=document.createElement("details");ds.className="steps";if(openSteps.has(t.id))ds.open=true;ds.addEventListener("toggle",()=>{ds.open?openSteps.add(t.id):openSteps.delete(t.id)});const sm=document.createElement("summary");sm.textContent="Cómo hacerlo ("+t.steps.length+" pasos)";const ol=document.createElement("ol");t.steps.forEach(x=>{const it=document.createElement("li");it.textContent=String(x);ol.append(it)});ds.append(sm,ol);b.append(ds)}
+    b.append(s);li.append(n,b);list.append(li);
   });
 }
 
